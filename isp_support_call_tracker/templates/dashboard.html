@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><span class="eyebrow">OVERVIEW</span><h2>لوحة التحكم</h2><p class="muted">ملخص البلاغات وحالة متابعة المشتركين</p></div><a class="btn btn-primary" href="{{ url_for('new_ticket') }}">＋ بلاغ جديد</a></div>
+<div class="stats">
+<div class="stat"><small>إجمالي البلاغات</small><strong>{{ total }}</strong><span>كل البلاغات الظاهرة لك</span></div>
+<div class="stat"><small>مفتوحة</small><strong>{{ opened }}</strong><span class="orange">تحتاج متابعة</span></div>
+<div class="stat"><small>مغلقة</small><strong>{{ closed }}</strong><span class="green">تم الحل</span></div>
+<div class="stat"><small>غير محلولة</small><strong>{{ unresolved }}</strong><span class="red">تحتاج تصعيد</span></div>
+{% if current_user.role=="admin" %}<div class="stat"><small>Agents فعالون</small><strong>{{ agent_count }}</strong><span>حسابات الفريق</span></div>{% endif %}
+</div>
+<div class="panel"><div class="panel-head"><h5>أحدث البلاغات</h5><a href="{{ url_for('tickets') }}">عرض الكل ←</a></div>
+{% if tickets %}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>#</th><th>المشترك</th><th>وصف المشكلة</th><th>RC</th><th>الحالة</th><th>التاريخ</th></tr></thead><tbody>
+{% for t in tickets %}<tr><td>{{ t.id }}</td><td>{{ t.subscriber }}</td><td class="issue">{{ t.issue }}</td><td>{{ t.rc.code if t.rc else "—" }}</td><td><span class="status {{ t.status|lower }}">{{ t.status }}</span></td><td>{{ t.created_at.strftime("%Y-%m-%d %H:%M") }}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty">لا توجد بلاغات حالياً. ابدأ بتسجيل أول بلاغ.</div>{% endif %}</div>
+{% endblock %}

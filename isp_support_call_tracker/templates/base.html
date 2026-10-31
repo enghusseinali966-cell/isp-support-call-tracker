@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title or "ISP Support Call Tracker" }}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+{% if current_user %}
+<div class="layout">
+<aside class="sidebar">
+<div class="brand">ISP <span>SUPPORT</span></div>
+<div class="userbox"><div class="avatar">{{ current_user.username[:1].upper() }}</div><div><b>{{ current_user.username }}</b><small>{{ "Admin" if current_user.role=="admin" else "Agent" }}</small></div></div>
+<nav>
+<a href="{{ url_for('dashboard') }}">▦ لوحة التحكم</a>
+<a href="{{ url_for('tickets') }}">▤ سجل البلاغات</a>
+<a href="{{ url_for('new_ticket') }}">＋ تسجيل بلاغ</a>
+{% if current_user.role=="admin" %}
+<div class="nav-label">الإدارة</div>
+<a href="{{ url_for('admin_users') }}">♙ إدارة Agents</a>
+<a href="{{ url_for('admin_codes') }}">⌘ رموز الحلول RC</a>
+{% endif %}
+<a href="{{ url_for('export_csv') }}">⇩ تصدير CSV</a>
+<a href="{{ url_for('logout') }}">↪ تسجيل خروج</a>
+</nav>
+<div class="side-foot">ISP Support Call Tracker<br><small>Private workspace</small></div>
+</aside>
+<main class="main">
+<header class="topbar"><div><span class="eyebrow">OPERATIONS CONSOLE</span><h5>نظام متابعة دعم المشتركين</h5></div><span class="live"><i></i> النظام جاهز</span></header>
+{% else %}<main class="login-shell">{% endif %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}<div class="alert alert-{{ category }} alert-dismissible fade show">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}
+{% endwith %}
+{% block content %}{% endblock %}
+{% if current_user %}</main></div>{% else %}</main>{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>

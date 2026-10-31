@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block content %}
+<div class="login-card"><div class="brand big">ISP <span>SUPPORT</span></div><p class="muted">بوابة متابعة مكالمات ومشاكل المشتركين</p>
+<h3>تسجيل الدخول</h3><form method="post">
+<label>اسم المستخدم</label><input class="form-control" name="username" required autocomplete="username">
+<label>كلمة المرور</label><input class="form-control" type="password" name="password" required autocomplete="current-password">
+<button class="btn btn-primary w-100 mt-4">دخول إلى النظام</button></form><small class="muted d-block mt-4">دخول خاص بالمستخدمين المخوّلين فقط</small></div>
+{% endblock %}

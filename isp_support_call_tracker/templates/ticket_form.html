@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><span class="eyebrow">SUPPORT TICKET</span><h2>{{ "تعديل البلاغ" if ticket else "تسجيل بلاغ جديد" }}</h2><p class="muted">أدخل تفاصيل اتصال المشترك والمشكلة</p></div></div>
+<div class="panel form-panel"><form method="post"><div class="row g-3">
+<div class="col-md-6"><label>رقم المشترك *</label><input class="form-control" name="subscriber" required value="{{ ticket.subscriber if ticket else '' }}"></div>
+<div class="col-md-6"><label>رمز الحل (RC)</label><select class="form-select" name="rc_id"><option value="">بدون رمز</option>{% for c in codes %}<option value="{{ c.id }}" {{ "selected" if ticket and ticket.rc_id==c.id else "" }}>{{ c.code }} — {{ c.title }}</option>{% endfor %}</select></div>
+<div class="col-12"><label>وصف المشكلة * (إجباري)</label><textarea class="form-control" name="issue" rows="4" required>{{ ticket.issue if ticket else '' }}</textarea></div>
+<div class="col-12"><label>الإجراء / الحل</label><textarea class="form-control" name="resolution" rows="3">{{ ticket.resolution if ticket else '' }}</textarea></div>
+<div class="col-md-6"><label>حالة البلاغ</label><select class="form-select" name="status">{% for s in ["Open","Closed","Unresolved"] %}<option {{ "selected" if ticket and ticket.status==s else "" }}>{{ s }}</option>{% endfor %}</select></div>
+</div><div class="form-actions"><a class="btn btn-outline-light" href="{{ url_for('tickets') }}">إلغاء</a><button class="btn btn-primary">حفظ البلاغ</button></div></form></div>{% endblock %}
